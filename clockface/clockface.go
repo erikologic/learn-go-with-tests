@@ -12,28 +12,23 @@ type Point struct {
 }
 
 const (
-	secsInMin = 60
-	secsInHours = 60 * 60
-	secsInHalfDay = 12 * 60 * 60
+	bySeconds = 60
+	byMinutes = 60 * 60
+	byHours = 12 * 60 * 60
+	fullCircle = 2 * math.Pi
 )
 
-var fullCircle = 2 * math.Pi
-func secondsInRadians(t time.Time) float64 {
-	secs := float64(t.Second())
-	return fullCircle / secsInMin * secs
-}
-
 func secondHandPoint(t time.Time) Point {
-	return angleToPoint(secondsInRadians(t))
-}
-
-func minutesInRadians(t time.Time) float64 {
-	secs := float64(60 * t.Minute() + t.Second())
-	return fullCircle / secsInHours * secs
+	return angleToPoint(toRadians(bySeconds, secsSinceMidnight(t)))
 }
 
 func minuteHandPoint(t time.Time) Point {
-	return angleToPoint(minutesInRadians(t))
+	return angleToPoint(toRadians(byMinutes, secsSinceMidnight(t)))
+
+}
+
+func hourHandPoint(t time.Time) Point {
+	return angleToPoint(toRadians(byHours, secsSinceMidnight(t)))
 }
 
 func angleToPoint(angle float64) Point {
@@ -43,11 +38,12 @@ func angleToPoint(angle float64) Point {
 	return Point{x, y}
 }
 
-func hoursInRadians(t time.Time) float64 {
-	secs := float64(t.Hour() % 12 * 60 * 60 + 60 * t.Minute() + t.Second())
-	return fullCircle / secsInHalfDay * secs
+func toRadians(base, secsSinceMidnight int) float64 {
+	return fullCircle / float64(base) * float64(secsSinceMidnight)
 }
 
-func hourHandPoint(t time.Time) Point {
-	return angleToPoint(hoursInRadians(t))
+func secsSinceMidnight(t time.Time) int {
+    year, month, day := t.Date()
+    t2 := time.Date(year, month, day, 0, 0, 0, 0, t.Location())
+    return int(t.Sub(t2).Seconds())
 }
