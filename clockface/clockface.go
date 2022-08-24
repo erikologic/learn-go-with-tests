@@ -11,8 +11,16 @@ type Point struct {
 	Y float64
 }
 
+const (
+	secsInMin = 60
+	secsInHours = 60 * 60
+	secsInHalfDay = 12 * 60 * 60
+)
+
+var fullCircle = 2 * math.Pi
 func secondsInRadians(t time.Time) float64 {
-	return (math.Pi / (30 / (float64(t.Second()))))
+	secs := float64(t.Second())
+	return fullCircle / secsInMin * secs
 }
 
 func secondHandPoint(t time.Time) Point {
@@ -20,8 +28,8 @@ func secondHandPoint(t time.Time) Point {
 }
 
 func minutesInRadians(t time.Time) float64 {
-	return (secondsInRadians(t) / 60) +
-		(math.Pi / (30 / float64(t.Minute())))
+	secs := float64(60 * t.Minute() + t.Second())
+	return fullCircle / secsInHours * secs
 }
 
 func minuteHandPoint(t time.Time) Point {
@@ -36,8 +44,8 @@ func angleToPoint(angle float64) Point {
 }
 
 func hoursInRadians(t time.Time) float64 {
-	return (minutesInRadians(t) / 12) +
-		(math.Pi / (6 / float64(t.Hour()%12)))
+	secs := float64(t.Hour() % 12 * 60 * 60 + 60 * t.Minute() + t.Second())
+	return fullCircle / secsInHalfDay * secs
 }
 
 func hourHandPoint(t time.Time) Point {
