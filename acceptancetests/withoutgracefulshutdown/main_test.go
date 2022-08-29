@@ -4,8 +4,8 @@ import (
 	"testing"
 	"time"
 
-	"example/acceptancetests"
-	"example/assert"
+	"github.com/mrenrich84/learn-go-with-tests/acceptancetests"
+	"github.com/mrenrich84/learn-go-with-tests/assert"
 )
 
 const (

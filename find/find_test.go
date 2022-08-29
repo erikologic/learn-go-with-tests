@@ -1,7 +1,7 @@
 package find
 
 import (
-	th "example/testHelpers"
+	th "github.com/mrenrich84/learn-go-with-tests/testHelpers"
 	"strings"
 	"testing"
 )

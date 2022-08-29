@@ -1,6 +1,6 @@
 package badbank
 
-import r "example/sum"
+import r "github.com/mrenrich84/learn-go-with-tests/sum"
 
 type Transaction struct {
 	From string

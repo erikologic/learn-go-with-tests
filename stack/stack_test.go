@@ -1,7 +1,7 @@
 package stack
 
 import "testing"
-import th "example/testHelpers"
+import th "github.com/mrenrich84/learn-go-with-tests/testHelpers"
 
 func TestStack(t *testing.T) {
 	t.Run("integer stack", func(t *testing.T) {

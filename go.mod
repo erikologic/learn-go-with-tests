@@ -1,4 +1,4 @@
-module example
+module github.com/mrenrich84/learn-go-with-tests
 
 go 1.19
 

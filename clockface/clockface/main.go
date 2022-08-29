@@ -1,7 +1,7 @@
 package main
 
 import (
-	"example/clockface"
+	"github.com/mrenrich84/learn-go-with-tests/clockface"
 	"os"
 	"time"
 )

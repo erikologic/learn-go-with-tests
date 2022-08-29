@@ -1,7 +1,7 @@
 package badbank
 
 import "testing"
-import th "example/testHelpers"
+import th "github.com/mrenrich84/learn-go-with-tests/testHelpers"
 
 func TestBadBank(t *testing.T) {
 	var (

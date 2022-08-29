@@ -3,7 +3,7 @@ package clockface_test
 import (
 	"bytes"
 	"encoding/xml"
-	"example/clockface"
+	"github.com/mrenrich84/learn-go-with-tests/clockface"
 	"testing"
 	"time"
 )

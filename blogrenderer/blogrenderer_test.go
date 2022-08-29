@@ -2,7 +2,7 @@ package blogrenderer_test
 
 import (
 	"bytes"
-	"example/blogrenderer"
+	"github.com/mrenrich84/learn-go-with-tests/blogrenderer"
 	"io"
 	"testing"
 
