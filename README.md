@@ -1,0 +1,1 @@
+Just following this amazing tutorial https://quii.gitbook.io/learn-go-with-tests/
