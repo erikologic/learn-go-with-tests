@@ -1,11 +1,10 @@
 package sum
 
 func Sum(numbers []int) int {
-	sum := 0
-	for _, number := range numbers {
-		sum += number
+	sumFn := func (acc, el int) int {
+		return acc + el
 	}
-	return sum
+	return Reduce(numbers, sumFn, 0)
 }
 
 func SumAll(numbersToSum ...[]int) []int {
