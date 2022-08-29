@@ -1,7 +1,7 @@
 package sum
 
 
-func Reduce[T any](collection []T, accumulator func(T, T) T, initialValue T) T {
+func Reduce[A, B any](collection []A, accumulator func(B, A) B, initialValue B) B {
 	result := initialValue
 	for _, number := range collection {
 		result = accumulator(result, number)
