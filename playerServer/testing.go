@@ -2,6 +2,7 @@ package poker
 
 import (
 	"fmt"
+	"io"
 	"testing"
 	"time"
 )
@@ -63,6 +64,6 @@ type SpyBlindAlerter struct {
 	Alerts []ScheduledAlert
 }
 
-func (s *SpyBlindAlerter) ScheduleAlertAt(duration time.Duration, amount int) {
+func (s *SpyBlindAlerter) ScheduleAlertAt(duration time.Duration, amount int, _ io.Writer) {
 	s.Alerts = append(s.Alerts, ScheduledAlert{duration, amount})
 }

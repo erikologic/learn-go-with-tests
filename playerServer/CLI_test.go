@@ -87,7 +87,7 @@ type GameSpy struct {
 	StartCalled  bool
 }
 
-func (g *GameSpy) Start(numberOfPlayers int) {
+func (g *GameSpy) Start(numberOfPlayers int, _ io.Writer) {
 	g.StartedWith = numberOfPlayers
 	g.StartCalled = true
 }
