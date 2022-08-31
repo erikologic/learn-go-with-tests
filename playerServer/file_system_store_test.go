@@ -2,6 +2,7 @@ package poker
 
 import (
 	"os"
+	"reflect"
 	"testing"
 )
 
@@ -136,5 +137,12 @@ func assertNoError(t testing.TB, err error) {
 	t.Helper()
 	if err != nil {
 		t.Fatalf("didn't expect an error but got one, %v", err)
+	}
+}
+
+func assertLeague(t *testing.T, got, want []Player) {
+	t.Helper()
+	if !reflect.DeepEqual(got, want) {
+		t.Errorf("got %v want %v", got, want)
 	}
 }

@@ -17,7 +17,7 @@ var dummyStdOut = &bytes.Buffer{}
 func TestCLI(t *testing.T) {
 
 	t.Run("start game with 3 players and finish game with 'Chris' as winner", func(t *testing.T) {
-		game := &GameSpy{}
+		game := &poker.GameSpy{}
 		stdout := &bytes.Buffer{}
 
 		in := userSends("3", "Chris")
@@ -31,7 +31,7 @@ func TestCLI(t *testing.T) {
 	})
 
 	t.Run("start game with 8 players and record 'Cleo' as winner", func(t *testing.T) {
-		game := &GameSpy{}
+		game := &poker.GameSpy{}
 
 		in := userSends("8", "Cleo")
 		cli := poker.NewCLI(in, dummyStdOut, game)
@@ -43,7 +43,7 @@ func TestCLI(t *testing.T) {
 	})
 
 	t.Run("it prints an error when a non numeric value is entered and does not start the game", func(t *testing.T) {
-		game := &GameSpy{}
+		game := &poker.GameSpy{}
 
 		stdout := &bytes.Buffer{}
 		in := userSends("pies", "")
@@ -56,21 +56,21 @@ func TestCLI(t *testing.T) {
 	})
 }
 
-func assertFinishCalledWith(t *testing.T, game *GameSpy, winnerName string) {
+func assertFinishCalledWith(t *testing.T, game *poker.GameSpy, winnerName string) {
 	t.Helper()
 	if game.FinishedWith != winnerName {
 		t.Errorf("wanted the game to finish with %s, got %s", winnerName, game.FinishedWith)
 	}
 }
 
-func assertGameStartedWith(t *testing.T, game *GameSpy, numberOfPlayers int) {
+func assertGameStartedWith(t *testing.T, game *poker.GameSpy, numberOfPlayers int) {
 	t.Helper()
 	if game.StartedWith != numberOfPlayers {
 		t.Errorf("wanted Start called with %d but got %d", numberOfPlayers, game.StartedWith)
 	}
 }
 
-func assertGameNotStarted(t *testing.T, game *GameSpy) {
+func assertGameNotStarted(t *testing.T, game *poker.GameSpy) {
 	t.Helper()
 	if game.StartCalled {
 		t.Errorf("game should not have started")
@@ -81,20 +81,7 @@ func userSends(numberOfPlayers, winnerName string) io.Reader {
 	return strings.NewReader(fmt.Sprintf("%s\n%s wins\n", numberOfPlayers, winnerName))
 }
 
-type GameSpy struct {
-	StartedWith  int
-	FinishedWith string
-	StartCalled  bool
-}
 
-func (g *GameSpy) Start(numberOfPlayers int, _ io.Writer) {
-	g.StartedWith = numberOfPlayers
-	g.StartCalled = true
-}
-
-func (g *GameSpy) Finish(winner string) {
-	g.FinishedWith = winner
-}
 
 func assertMessagesSentToUser(t testing.TB, stdout *bytes.Buffer, messages ...string) {
 	t.Helper()
