@@ -16,10 +16,9 @@ func main() {
 		log.Fatalf("problem creating file system player store, %v", err)
 	}
 	defer close()
-	
 
 	fmt.Println("Let's play poker")
 	fmt.Println("Type {Name} wins to record a win")
-	game := poker.NewCLI(store, os.Stdin, os.Stdout, poker.BlindAlerterFunc(poker.StdOutAlerter))
-	game.PlayPoker()
+	game := poker.NewTexasHoldem(poker.BlindAlerterFunc(poker.StdOutAlerter), store)
+	poker.NewCLI(os.Stdin, os.Stdout, game).PlayPoker()
 }
