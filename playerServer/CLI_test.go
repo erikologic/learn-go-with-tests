@@ -6,6 +6,7 @@ import (
 	"io"
 	"strings"
 	"testing"
+	"time"
 
 	poker "github.com/mrenrich84/learn-go-with-tests/playerServer"
 )
@@ -56,17 +57,22 @@ func TestCLI(t *testing.T) {
 	})
 }
 
-func assertFinishCalledWith(t *testing.T, game *poker.GameSpy, winnerName string) {
+func assertFinishCalledWith(t testing.TB, game *poker.GameSpy, winner string) {
 	t.Helper()
-	if game.FinishedWith != winnerName {
-		t.Errorf("wanted the game to finish with %s, got %s", winnerName, game.FinishedWith)
+
+	passed := retryUntil(500*time.Millisecond, func() bool {
+		return game.FinishCalledWith == winner
+	})
+
+	if !passed {
+		t.Errorf("expected finish called with %q but got %q", winner, game.FinishCalledWith)
 	}
 }
 
 func assertGameStartedWith(t *testing.T, game *poker.GameSpy, numberOfPlayers int) {
 	t.Helper()
-	if game.StartedWith != numberOfPlayers {
-		t.Errorf("wanted Start called with %d but got %d", numberOfPlayers, game.StartedWith)
+	if game.StartCalledWith != numberOfPlayers {
+		t.Errorf("wanted Start called with %d but got %d", numberOfPlayers, game.StartCalledWith)
 	}
 }
 
@@ -75,6 +81,16 @@ func assertGameNotStarted(t *testing.T, game *poker.GameSpy) {
 	if game.StartCalled {
 		t.Errorf("game should not have started")
 	}
+}
+
+func retryUntil(d time.Duration, f func() bool) bool {
+	deadline := time.Now().Add(d)
+	for time.Now().Before(deadline) {
+		if f() {
+			return true
+		}
+	}
+	return false
 }
 
 func userSends(numberOfPlayers, winnerName string) io.Reader {
